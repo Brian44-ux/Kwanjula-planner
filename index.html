@@ -1,1 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Kwanjula Planner</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================
+     APP HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+        <span class="brand-icon">🌿</span>
+        <div>
+            <h1>Kwanjula Planner</h1>
+            <small>Plan your ceremony with confidence</small>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">
+        🖨️ Print
+    </button>
+
+</header>
+
+
+<!-- =========================
+     MAIN APP
+========================= -->
+
+<main class="app-container">
+
+    <!-- LANDING / SETUP -->
+
+    <section id="setupScreen" class="screen">
+
+        <div class="hero">
+
+            <div class="hero-icon">🇺🇬</div>
+
+            <h2>Plan your Kwanjula with confidence.</h2>
+
+            <p>
+                Keep your ceremony details, tasks, budget, shopping,
+                family requirements and programme in one simple place.
+            </p>
+
+            <button class="primary-btn" onclick="showSetupForm()">
+                Start Planning
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- SETUP FORM -->
+
+    <section id="setupForm" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn" onclick="showScreen('setupScreen')">
+                ← Back
+            </button>
+
+            <h2>Set up your Kwanjula</h2>
+
+            <p>Tell us a few things about your ceremony.</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <label>
+                Your name
+                <input id="ownerName" type="text"
+                       placeholder="e.g. Sarah Namukasa">
+            </label>
+
+
+            <label>
+                Kwanjula date
+                <input id="eventDate" type="date">
+            </label>
+
+
+            <label>
+                Venue
+                <input id="venue" type="text"
+                       placeholder="e.g. Family home, Ntinda">
+            </label>
+
+
+            <label>
+                Main contact person
+                <input id="mainContact" type="text"
+                       placeholder="Name">
+            </label>
+
+
+            <label>
+                Contact phone
+                <input id="mainPhone" type="tel"
+                       placeholder="07XXXXXXXX">
+            </label>
+
+
+            <label>
+                Planned budget (UGX)
+                <input id="plannedBudget"
+                       type="number"
+                       placeholder="2000000">
+            </label>
+
+
+            <button class="primary-btn full-width"
+                    onclick="createPlanner()">
+                Create My Planner
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+
+    <section id="dashboardScreen" class="screen hidden">
+
+        <div class="dashboard-header">
+
+            <div>
+                <p class="eyebrow">YOUR KWANJULA</p>
+                <h2 id="dashboardTitle">Kwanjula</h2>
+                <p id="dashboardVenue"></p>
+            </div>
+
+            <div class="countdown">
+                <strong id="daysLeft">0</strong>
+                <span>days to go</span>
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>💰</span>
+
+                <div>
+                    <small>Budget</small>
+                    <strong id="budgetStat">
+                        UGX 0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>✅</span>
+
+                <div>
+                    <small>Tasks done</small>
+                    <strong id="tasksStat">
+                        0 / 0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🛍️</span>
+
+                <div>
+                    <small>Shopping</small>
+                    <strong id="shoppingStat">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>📋</span>
+
+                <div>
+                    <small>Requirements</small>
+                    <strong id="requirementsStat">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORGETTING CHECK -->
+
+        <div class="alert-card">
+
+            <div>
+                <span class="alert-icon">💡</span>
+
+                <div>
+                    <h3>What am I forgetting?</h3>
+
+                    <p id="forgettingSummary">
+                        Let's check your planner.
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="runForgettingCheck()">
+                Check
+            </button>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <h3 class="section-title">Quick actions</h3>
+
+        <div class="quick-grid">
+
+            <button onclick="showScreen('tasksScreen')">
+                <span>✅</span>
+                <strong>Tasks</strong>
+                <small>Stay organised</small>
+            </button>
+
+
+            <button onclick="showScreen('budgetScreen')">
+                <span>💰</span>
+                <strong>Budget</strong>
+                <small>Track spending</small>
+            </button>
+
+
+            <button onclick="showScreen('shoppingScreen')">
+                <span>🛍️</span>
+                <strong>Shopping</strong>
+                <small>What to buy</small>
+            </button>
+
+
+            <button onclick="showScreen('requirementsScreen')">
+                <span>👪</span>
+                <strong>Requirements</strong>
+                <small>Family needs</small>
+            </button>
+
+
+            <button onclick="showScreen('contactsScreen')">
+                <span>📞</span>
+                <strong>Contacts</strong>
+                <small>Important people</small>
+            </button>
+
+
+            <button onclick="showScreen('programmeScreen')">
+                <span>🕐</span>
+                <strong>Programme</strong>
+                <small>Plan the day</small>
+            </button>
+
+        </div>
+
+
+        <div class="dashboard-actions">
+
+            <button class="secondary-btn"
+                    onclick="showScreen('detailsScreen')">
+                ⚙️ Ceremony details
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="window.print()">
+                🖨️ Print planner
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- TASKS -->
+
+    <section id="tasksScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>To-do list</h2>
+
+            <p>Keep track of everything that needs to happen.</p>
+
+        </div>
+
+
+        <div class="card add-card">
+
+            <input id="taskInput"
+                   type="text"
+                   placeholder="e.g. Confirm decorator">
+
+            <input id="taskDate"
+                   type="date">
+
+            <select id="taskPriority">
+
+                <option value="Normal">Normal priority</option>
+                <option value="Important">Important</option>
+                <option value="Urgent">Urgent</option>
+
+            </select>
+
+            <button class="primary-btn"
+                    onclick="addTask()">
+                + Add task
+            </button>
+
+        </div>
+
+
+        <div id="taskList"></div>
+
+    </section>
+
+
+    <!-- BUDGET -->
+
+    <section id="budgetScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Budget</h2>
+
+            <p>Know where your money is going.</p>
+
+        </div>
+
+
+        <div class="budget-summary">
+
+            <div>
+                <small>Planned</small>
+                <strong id="budgetPlanned">UGX 0</strong>
+            </div>
+
+            <div>
+                <small>Actual</small>
+                <strong id="budgetActual">UGX 0</strong>
+            </div>
+
+            <div>
+                <small>Remaining</small>
+                <strong id="budgetRemaining">UGX 0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="card add-card">
+
+            <input id="budgetName"
+                   type="text"
+                   placeholder="Category e.g. Food">
+
+            <input id="budgetEstimated"
+                   type="number"
+                   placeholder="Estimated UGX">
+
+            <input id="budgetActualInput"
+                   type="number"
+                   placeholder="Actual UGX">
+
+            <button class="primary-btn"
+                    onclick="addBudgetItem()">
+                + Add
+            </button>
+
+        </div>
+
+
+        <div id="budgetList"></div>
+
+    </section>
+
+
+    <!-- SHOPPING -->
+
+    <section id="shoppingScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Shopping list</h2>
+
+            <p>Keep track of what you still need to buy.</p>
+
+        </div>
+
+
+        <div class="card add-card">
+
+            <input id="shoppingName"
+                   type="text"
+                   placeholder="Item e.g. Basins">
+
+            <input id="shoppingQuantity"
+                   type="number"
+                   placeholder="Quantity">
+
+            <input id="shoppingCost"
+                   type="number"
+                   placeholder="Estimated cost">
+
+            <button class="primary-btn"
+                    onclick="addShoppingItem()">
+                + Add item
+            </button>
+
+        </div>
+
+
+        <div id="shoppingList"></div>
+
+    </section>
+
+
+    <!-- FAMILY REQUIREMENTS -->
+
+    <section id="requirementsScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Family requirements</h2>
+
+            <p>
+                Every family may have different expectations.
+                Record yours here.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <label>
+                Requirement
+                <input id="requirementName"
+                       type="text"
+                       placeholder="e.g. Specific traditional items">
+            </label>
+
+            <label>
+                Notes
+                <textarea id="requirementNotes"
+                          placeholder="Details, quantity, who is responsible..."></textarea>
+            </label>
+
+            <button class="primary-btn"
+                    onclick="addRequirement()">
+                + Add requirement
+            </button>
+
+        </div>
+
+
+        <div id="requirementsList"></div>
+
+    </section>
+
+
+    <!-- CONTACTS -->
+
+    <section id="contactsScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Important contacts</h2>
+
+            <p>Keep all important service and family contacts together.</p>
+
+        </div>
+
+
+        <div class="card add-card">
+
+            <input id="contactName"
+                   type="text"
+                   placeholder="Name">
+
+            <input id="contactRole"
+                   type="text"
+                   placeholder="Role / service">
+
+            <input id="contactPhone"
+                   type="tel"
+                   placeholder="Phone number">
+
+            <button class="primary-btn"
+                    onclick="addContact()">
+                + Add contact
+            </button>
+
+        </div>
+
+
+        <div id="contactsList"></div>
+
+    </section>
+
+
+    <!-- PROGRAMME -->
+
+    <section id="programmeScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Kwanjula programme</h2>
+
+            <p>Plan how your day will flow.</p>
+
+        </div>
+
+
+        <div class="card add-card">
+
+            <input id="programmeTime"
+                   type="time">
+
+            <input id="programmeActivity"
+                   type="text"
+                   placeholder="Activity">
+
+            <input id="programmePerson"
+                   type="text"
+                   placeholder="Person responsible">
+
+            <button class="primary-btn"
+                    onclick="addProgrammeItem()">
+                + Add
+            </button>
+
+        </div>
+
+
+        <div id="programmeList"></div>
+
+    </section>
+
+
+    <!-- DETAILS -->
+
+    <section id="detailsScreen" class="screen hidden">
+
+        <div class="page-header">
+
+            <button class="back-btn"
+                    onclick="showScreen('dashboardScreen')">
+                ← Dashboard
+            </button>
+
+            <h2>Ceremony details</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <label>
+                Name
+                <input id="editOwnerName">
+            </label>
+
+            <label>
+                Date
+                <input id="editEventDate"
+                       type="date">
+            </label>
+
+            <label>
+                Venue
+                <input id="editVenue">
+            </label>
+
+            <label>
+                Main contact
+                <input id="editMainContact">
+            </label>
+
+            <label>
+                Phone
+                <input id="editMainPhone">
+            </label>
+
+            <label>
+                Planned budget
+                <input id="editPlannedBudget"
+                       type="number">
+            </label>
+
+            <button class="primary-btn"
+                    onclick="saveDetails()">
+                Save changes
+            </button>
+
+        </div>
+
+
+        <div class="danger-zone">
+
+            <h3>Reset planner</h3>
+
+            <p>
+                This will permanently remove the planner
+                data saved in this browser.
+            </p>
+
+            <button class="danger-btn"
+                    onclick="resetPlanner()">
+                Delete planner
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     MOBILE NAVIGATION
+========================= -->
+
+<nav class="bottom-nav">
+
+    <button onclick="showScreen('dashboardScreen')">
+        <span>🏠</span>
+        Home
+    </button>
+
+    <button onclick="showScreen('tasksScreen')">
+        <span>✅</span>
+        Tasks
+    </button>
+
+    <button onclick="showScreen('budgetScreen')">
+        <span>💰</span>
+        Budget
+    </button>
+
+    <button onclick="showScreen('shoppingScreen')">
+        <span>🛍️</span>
+        Shopping
+    </button>
+
+    <button onclick="showScreen('detailsScreen')">
+        <span>⚙️</span>
+        More
+    </button>
+
+</nav>
+
+
+<script src="app.js"></script>
+
+</body>
+  </html>
